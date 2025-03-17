@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>761</width>
+      <height>511</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_f">
+    <property name="title">
+     <string>文件(&amp;F)</string>
+    </property>
+    <addaction name="actionNew_N"/>
+    <addaction name="actionOpen_O"/>
+    <addaction name="actionClose_W"/>
+    <addaction name="actionSave_S"/>
+    <addaction name="actionExit_E"/>
+    <addaction name="actionSaveAs_A"/>
+   </widget>
+   <widget class="QMenu" name="menu_E">
+    <property name="title">
+     <string>编辑(&amp;E)</string>
+    </property>
+    <addaction name="actionUndo_Z"/>
+    <addaction name="actionCut_X"/>
+    <addaction name="actionCopy_C"/>
+    <addaction name="actionPaste_V"/>
+    <addaction name="actionFind_F"/>
+   </widget>
+   <widget class="QMenu" name="menuBuild">
+    <property name="title">
+     <string>Build</string>
+    </property>
+    <addaction name="actionBuildAll"/>
+   </widget>
+   <addaction name="menu_f"/>
+   <addaction name="menu_E"/>
+   <addaction name="menuBuild"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew_N"/>
+   <addaction name="actionOpen_O"/>
+   <addaction name="actionClose_W"/>
+   <addaction name="separator"/>
+   <addaction name="actionSave_S"/>
+   <addaction name="actionUndo_Z"/>
+   <addaction name="actionCut_X"/>
+   <addaction name="actionCopy_C"/>
+   <addaction name="actionPaste_V"/>
+   <addaction name="actionFind_F"/>
+  </widget>
+  <action name="actionNew_N">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/new-1.png</normaloff>:/myImages/images/new-1.png</iconset>
+   </property>
+   <property name="text">
+    <string>新建(&amp;N)</string>
+   </property>
+   <property name="toolTip">
+    <string>新建(N)</string>
+   </property>
+   <property name="statusTip">
+    <string>新建文件</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionOpen_O">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/file-open.png</normaloff>:/myImages/images/file-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open(&amp;O)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionClose_W">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/CLOSE.png</normaloff>:/myImages/images/CLOSE.png</iconset>
+   </property>
+   <property name="text">
+    <string>Close(&amp;C)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionSave_S">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/save.png</normaloff>:/myImages/images/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save(&amp;S)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionExit_E">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/exit.png</normaloff>:/myImages/images/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit(&amp;X)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionUndo_Z">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/undo.png</normaloff>:/myImages/images/undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Undo(&amp;Z)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionCut_X">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/cut.png</normaloff>:/myImages/images/cut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut(&amp;X)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionCopy_C">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/copy.png</normaloff>:/myImages/images/copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy(&amp;C)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionPaste_V">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/paste.png</normaloff>:/myImages/images/paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste(&amp;V)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionSaveAs_A">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/SAVE_AS.png</normaloff>:/myImages/images/SAVE_AS.png</iconset>
+   </property>
+   <property name="text">
+    <string>另存为(&amp;A)</string>
+   </property>
+   <property name="toolTip">
+    <string>另存为(A)</string>
+   </property>
+  </action>
+  <action name="actionFind_F">
+   <property name="icon">
+    <iconset resource="myResources.qrc">
+     <normaloff>:/myImages/images/find.png</normaloff>:/myImages/images/find.png</iconset>
+   </property>
+   <property name="text">
+    <string>查找(&amp;F)</string>
+   </property>
+   <property name="toolTip">
+    <string>查找(F)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionBuildAll">
+   <property name="text">
+    <string>Build All</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="myResources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
