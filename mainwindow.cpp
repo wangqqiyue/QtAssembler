@@ -158,8 +158,7 @@ void MainWindow::showInst(QString s){
     // 显示窗口
     dialog->show();
 }
-
-void MainWindow::showMachine(QString s){
+void MainWindow::showMachine(QString s) {
     // 创建一个 QDialog 窗口
     QDialog* dialog = new QDialog(this);  // 设置父窗口为主窗口
     dialog->setWindowTitle("5. 机器指令");
@@ -170,9 +169,13 @@ void MainWindow::showMachine(QString s){
     textEdit->setReadOnly(true);
     textEdit->setPlainText(s);
 
-    // 创建一个布局并将 QTextEdit 添加到布局中
+    // 创建一个按钮用于保存内容
+    QPushButton* saveButton = new QPushButton("保存到文件", dialog);
+
+    // 创建一个布局并将 QTextEdit 和按钮添加到布局中
     QVBoxLayout* layout = new QVBoxLayout(dialog);
     layout->addWidget(textEdit);
+    layout->addWidget(saveButton);
 
     // 设置布局
     dialog->setLayout(layout);
@@ -181,8 +184,25 @@ void MainWindow::showMachine(QString s){
     dialog->resize(400, 300);
 
     // 调整窗口位置，实现堆叠效果
-    QPoint offset(100 , 100 );
+    QPoint offset(100, 100);
     dialog->move(this->pos() + offset);
+
+    // 为按钮添加点击事件
+    connect(saveButton, &QPushButton::clicked, [dialog, textEdit]() {
+        // 弹出文件选择对话框，让用户选择保存位置
+        QString filePath = QFileDialog::getSaveFileName(dialog, "保存文件", "", "Text Files (*.txt)");
+        if (!filePath.isEmpty()) {
+            QFile file(filePath);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QTextStream out(&file);
+                out << textEdit->toPlainText();
+                file.close();
+                QMessageBox::information(dialog, "保存成功", "内容已成功保存到文件中！");
+            } else {
+                QMessageBox::critical(dialog, "保存失败", "无法打开文件进行写入！");
+            }
+        }
+    });
 
     // 显示窗口
     dialog->show();
