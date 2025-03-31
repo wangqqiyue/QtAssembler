@@ -257,7 +257,10 @@ vector<Instruction> parse(const vector<Token>& tokens) {
                 }
 
                 instr.operands.push_back(tokens[j].value);
-
+                // 检查操作数是否为已定义的符号
+                if (tokens[j].type == IDENTIFIER && symbolTable.find(tokens[j].value) == symbolTable.end()) {
+                    throw runtime_error("Undefined symbol: " + tokens[j].value);
+                }
                 j++;
             }
 

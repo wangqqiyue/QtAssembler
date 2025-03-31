@@ -429,6 +429,7 @@ void MainWindow::on_actionBuildAll_triggered()
         // 获取用户输入的汇编代码
         QString origin = ui->textEdit->toPlainText();
 
+        try{
         // 调用汇编器函数将代码转换为机器指令
         string code = preprocess(origin.toStdString());
 
@@ -493,5 +494,9 @@ void MainWindow::on_actionBuildAll_triggered()
         }
 
         showMachine(machineCode);
+        }
+        catch (const runtime_error& e) {
+              QMessageBox::critical(nullptr, "Error", QString::fromStdString(e.what()));
+        }
 }
 
