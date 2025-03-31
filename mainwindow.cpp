@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *layout= new QVBoxLayout(findDlg);
     layout->addWidget(findLineEdit);
     layout->addWidget(btn);
+    findLineEdit->setStyleSheet("QLineEdit { background-color: white; }"
+                                "QLineEdit::selection { background-color: yellow; color: black; }");
     connect(btn, SIGNAL(clicked()), this, SLOT(showFindText()));
     statusLabel = new QLabel;
     statusLabel->setMinimumSize(150, 20); // 设置标签最小大小
@@ -320,10 +322,39 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::showFindText()
 {
     QString str = findLineEdit->text();
-    if (!ui->textEdit->find(str, QTextDocument::FindBackward))
+    QTextDocument *textDocument = ui->textEdit->document();
+
+    // 如果是第一次查找，从文档开头开始
+    static QTextCursor lastCursor;
+    if (lastCursor.isNull())
+    {
+        lastCursor = QTextCursor(textDocument);
+    }
+
+    // 先清除所有之前的高亮格式
+    QTextCursor cursor(textDocument);
+    QTextCharFormat plainFormat; // 默认格式
+    plainFormat.setBackground(Qt::white);
+    plainFormat.setForeground(Qt::black); // 恢复默认文本颜色
+    cursor.select(QTextCursor::Document); // 选择整个文档
+    cursor.mergeCharFormat(plainFormat); // 应用默认格式
+
+
+    // 从上次找到的位置继续查找
+    lastCursor = textDocument->find(str, lastCursor);
+
+    if (lastCursor.isNull())
     {
         QMessageBox::warning(this, tr("查找"),
                              tr("找不到%1").arg(str));
+        lastCursor = QTextCursor(); // 重置查找位置
+    }
+    else
+    {
+        QTextCharFormat format;
+        format.setBackground(Qt::yellow);
+        format.setForeground(Qt::red); // 设置找到的文本颜色为红色
+        lastCursor.mergeCharFormat(format); // 应用格式
     }
 }
 
