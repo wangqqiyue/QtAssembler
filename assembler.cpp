@@ -6,6 +6,12 @@
 
 // 指令表
 unordered_map<string, function<string(const Instruction&)>> instructionTable = {
+    {"slt", [](const Instruction& instr) {
+         int rs = getRegisterNumber(instr.operands[1]);
+         int rt = getRegisterNumber(instr.operands[0]);
+         int imm = symbolTable[instr.operands[2]];
+         return "101010" + toBinary(rs, 5) + toBinary(rt, 5) + toBinary(imm, 16);
+     }},
     {"slti", [](const Instruction& instr) {
          int rs = getRegisterNumber(instr.operands[1]);
          int rt = getRegisterNumber(instr.operands[0]);
@@ -60,6 +66,12 @@ unordered_map<string, function<string(const Instruction&)>> instructionTable = {
          int imm = stoi(instr.operands[2]);
          return "001000" + toBinary(rs, 5) + toBinary(rt, 5) + toBinary(imm, 16);
      }},
+    {"la", [](const Instruction& instr) {
+         int rt = getRegisterNumber(instr.operands[0]);
+         int imm = symbolTable[instr.operands[1]];
+         // cout<<"la,rt="<<instr.operands[0]<<"imm="<<instr.operands[1]<<endl;
+         return "001000" + toBinary(0, 5) + toBinary(rt, 5) + toBinary(imm, 16);
+     }},
     {"addiu", [](const Instruction& instr) {
          int rs = getRegisterNumber(instr.operands[1]);
          int rt = getRegisterNumber(instr.operands[0]);
@@ -104,7 +116,7 @@ unordered_map<string, function<string(const Instruction&)>> instructionTable = {
     {"beq", [](const Instruction& instr) {
          int rs = getRegisterNumber(instr.operands[0]);
          int rt = getRegisterNumber(instr.operands[1]);
-         int offset = stoi(instr.operands[2]);
+         int offset = symbolTable[instr.operands[2]];
          return "000100" + toBinary(rs, 5) + toBinary(rt, 5) + toBinary(offset, 16);
      }},
     {"bne", [](const Instruction& instr) {
@@ -231,10 +243,11 @@ vector<Instruction> parse(const vector<Token>& tokens) {
 
     for (size_t i = 0; i < tokens.size(); ++i) {
         const Token& token = tokens[i];
-
+        // cout<<"token="<<token.value<<endl;
         // 跳过伪指令和标签
         if (token.type == DOT || (token.type == IDENTIFIER && i + 1 < tokens.size() && tokens[i + 1].type == COLON)) {
             i++;
+            // cout<<"token[i]="<<tokens[i].value<<endl;
             continue;
         }
 
@@ -288,18 +301,17 @@ void buildSymbolTable(const vector<Token>& tokens) {
 
     for (size_t i = 0; i < tokens.size(); ++i) {
         const Token& token = tokens[i];
-
         // 处理伪指令
         if (token.type == DOT) {
             if (i + 1 < tokens.size()) {
                 if (tokens[i + 1].value == "data") {
                     inDataSection = true;  // 进入数据段
-                    address = 0x10000000;  // 数据段起始地址
+                    address = 0x0000;  // 数据段起始地址
                     cout << "Entering .data section. Address set to 0x" << hex << address << endl;
                     i++;  // 跳过伪指令
                 } else if (tokens[i + 1].value == "text") {
                     inDataSection = false;  // 进入代码段
-                    address = 0x00400000;  // 代码段起始地址
+                    address = 0x0000;  // 代码段起始地址
                     cout << "Entering .text section. Address set to 0x" << hex << address << endl;
                     i++;  // 跳过伪指令
                 } else if (tokens[i + 1].value == "globl") {
@@ -313,6 +325,7 @@ void buildSymbolTable(const vector<Token>& tokens) {
                 }
             }
         }
+
 
         // 处理标签
         if (token.type == IDENTIFIER && i + 1 < tokens.size() && tokens[i + 1].type == COLON) {
@@ -361,6 +374,11 @@ void buildSymbolTable(const vector<Token>& tokens) {
 string generateMachineCode(const Instruction& instr) {
     auto it = instructionTable.find(instr.opcode);
     if (it != instructionTable.end()) {
+        cout<<"inst="<<instr.opcode;
+        for(auto op:instr.operands){
+            cout<<",op="<<op;
+        }
+        cout<<endl;
         return it->second(instr);
     } else {
         throw runtime_error("Unknown opcode: " + instr.opcode);
