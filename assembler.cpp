@@ -3,6 +3,8 @@
 #include <sstream>
 #include "utils.h"
 
+//当前指令地址
+int g_cur_inst_addr = 0;
 
 // 指令表
 unordered_map<string, function<string(const Instruction&)>> instructionTable = {
@@ -110,19 +112,19 @@ unordered_map<string, function<string(const Instruction&)>> instructionTable = {
          return "000011" + toBinary(address, 26);
      }},
     {"j", [](const Instruction& instr) {
-         int address = symbolTable[instr.operands[0]];
+         int address = symbolTable[instr.operands[0]]>>2;
          return "000010" + toBinary(address, 26);
      }},
     {"beq", [](const Instruction& instr) {
          int rs = getRegisterNumber(instr.operands[0]);
          int rt = getRegisterNumber(instr.operands[1]);
-         int offset = symbolTable[instr.operands[2]];
+         int offset = (symbolTable[instr.operands[2]] - g_cur_inst_addr)>>2;
          return "000100" + toBinary(rs, 5) + toBinary(rt, 5) + toBinary(offset, 16);
      }},
     {"bne", [](const Instruction& instr) {
          int rs = getRegisterNumber(instr.operands[0]);
          int rt = getRegisterNumber(instr.operands[1]);
-         int offset = symbolTable[instr.operands[2]];
+         int offset = (symbolTable[instr.operands[2]] - g_cur_inst_addr)>>2;
          return "000101" + toBinary(rs, 5) + toBinary(rt, 5) + toBinary(offset, 16);
      }},
     {"jalr", [](const Instruction& instr) {
@@ -352,7 +354,8 @@ void buildSymbolTable(const vector<Token>& tokens) {
                 i--;
             }
         } else {
-            if (token.type == IDENTIFIER) {
+            if (token.type == IDENTIFIER && instructionTable.find(token.value)!=instructionTable.end()) {
+                // cout<<"token:"<<token.value<<",addr="<<address<<endl;
                 address += 4;  // 每条指令占用4字节
             }
         }
@@ -374,11 +377,13 @@ void buildSymbolTable(const vector<Token>& tokens) {
 string generateMachineCode(const Instruction& instr) {
     auto it = instructionTable.find(instr.opcode);
     if (it != instructionTable.end()) {
+        cout<<"g_cur_inst_addr=0x"<<g_cur_inst_addr<<endl;
         cout<<"inst="<<instr.opcode;
         for(auto op:instr.operands){
             cout<<",op="<<op;
         }
         cout<<endl;
+        g_cur_inst_addr+=4;
         return it->second(instr);
     } else {
         throw runtime_error("Unknown opcode: " + instr.opcode);
