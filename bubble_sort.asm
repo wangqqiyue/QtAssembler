@@ -6,13 +6,13 @@ main:
 
     # 初始化寄存器
     la $t0,array  # $t0 = array的地址
-    addi $t1, $zero, 8      # $t1 = 数组大小
+    addi $t1, $zero, 7      # $t1 = n-1
     addi $t2, $zero, 0      # $t2 = 外层循环计数器 i
 outer_loop:
-    beq $t2, $t1, done      # 如果 i == 数组大小，跳转到 done
+    beq $t2, $t1, done      # 如果 i == n-1，跳转到 done
     addi $t3, $zero, 0      # $t3 = 内层循环计数器 j
 inner_loop:
-    beq $t3, $t1, outer_done # 如果 j == 数组大小，跳转到 outer_done
+    beq $t3, $t1, outer_done # 如果 j == n-1，跳转到 outer_done
     # 加载 array[j] 和 array[j+1]
     lw $t4, 0($t0)          # $t4 = array[j]
     lw $t5, 4($t0)          # $t5 = array[j+1]
