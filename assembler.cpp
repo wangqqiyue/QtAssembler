@@ -8,9 +8,9 @@
 unordered_map<string, function<string(const Instruction&)>> instructionTable = {
     {"slt", [](const Instruction& instr) {
          int rs = getRegisterNumber(instr.operands[1]);
-         int rt = getRegisterNumber(instr.operands[0]);
-         int imm = symbolTable[instr.operands[2]];
-         return "101010" + toBinary(rs, 5) + toBinary(rt, 5) + toBinary(imm, 16);
+         int rt = getRegisterNumber(instr.operands[2]);
+         int rd = getRegisterNumber(instr.operands[0]);
+         return "000000" + toBinary(rs, 5) + toBinary(rt, 5) + toBinary(rd, 5) + "00000" + "101010";
      }},
     {"slti", [](const Instruction& instr) {
          int rs = getRegisterNumber(instr.operands[1]);
