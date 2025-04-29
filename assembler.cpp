@@ -370,6 +370,7 @@ void buildSymbolTable(const vector<Token>& tokens) {
             cout << "Label: " << entry.first << ", Address: 0x" << hex << entry.second << endl;
         }
     }
+    g_cur_inst_addr=0;
 }
 
 
