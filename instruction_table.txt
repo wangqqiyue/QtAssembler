@@ -1,0 +1,41 @@
+SLTI 001010 rs rt imm
+SLTIU 001011 rs rt imm
+LW 100011 base rt offset
+SW 101011 base rt offset
+LB 100000 base rt offset
+LBU 100100 base rt offset
+LH 100001 base rt offset
+LHU 100101 base rt offset
+SB 101000 base rt offset
+SH 101001 base rt offset
+ADD 000000 rs rt rd 00000 100000
+ADDU 000000 rs rt rd 00000 100001
+SUB 000000 rs rt rd 00000 100010
+SUBU 000000 rs rt rd 00000 100011
+SLL 000000 00000 rt rd sa 000000
+SRL 000000 00000 rt rd sa 000010
+SRA 000000 00000 rt rd sa 000011
+SLLV 000000 rs rt rd 00000 000100
+SRLV 000000 rs rt rd 00000 000110
+SRAV 000000 rs rt rd 00000 000111
+AND 000000 rs rt rd 00000 100100
+OR 000000 rs rt rd 00000 100101
+XOR 000000 rs rt rd 00000 100110
+NOR 000000 rs rt rd 00000 100111
+ADDI 001000 rs rt imm
+ADDIU 001001 rs rt imm
+ANDI 001100 rs rt imm
+ORI 001101 rs rt imm
+XORI 001110 rs rt imm
+LUI 001111 00000 rt imm
+JR 000000 rs 0000000000 hint 001000
+JAL 000011 instr_index
+J 000010 instr_index
+BEQ 000100 rs rt offset
+BNE rs rt offset
+JALR 000000 rs 00000 rd hint 001001
+BLEZ 000110 rs 00000 offset
+BGTZ 000111 rs 00000 offset
+BLTZ 000001 rs 00000 offset
+BGEZ 000001 rs 00001 offset
+

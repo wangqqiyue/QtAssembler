@@ -12,6 +12,7 @@
 #include "assembler.h"
 
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -490,8 +491,6 @@ void MainWindow::on_actionBuildAll_triggered()
         }
 
         showSymbol(symbolStr);
-
-        // 语法分析
         vector<Instruction> instructions = parse(tokens);
         QString instStr = "Instruction \t Operator \n";
 
@@ -504,7 +503,6 @@ void MainWindow::on_actionBuildAll_triggered()
             for (const auto& operand : instr.operands) {
                 operands += QString::fromStdString(operand) + " ";
             }
-
             // 去掉最后一个空格
             if (!operands.isEmpty()) {
                 operands.chop(1);
@@ -516,14 +514,12 @@ void MainWindow::on_actionBuildAll_triggered()
 
 
         showInst(instStr);
-
         // 代码生成
         QString machineCode;
         for (const auto& instr : instructions) {
             machineCode += QString::fromStdString(generateMachineCode(instr));
             machineCode += "\n";
         }
-
         showMachine(machineCode);
         }
         catch (const runtime_error& e) {
